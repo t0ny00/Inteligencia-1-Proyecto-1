@@ -1,0 +1,45 @@
+
+# number of state variables
+ 12
+
+# All state variables are binary.
+2 2 2 2 2 2 2 2 2 2 2 2 
+
+ 1 0 - - - - - - - - - - => 0 1 - - - - - - - - - -  LABEL Disk1_From1_To2
+ 1 - 0 - - - - - - - - - => 0 - 1 - - - - - - - - -  LABEL Disk1_From1_To3
+ 1 - - 0 - - - - - - - - => 0 - - 1 - - - - - - - -  LABEL Disk1_From1_To4
+ 0 1 - - - - - - - - - - => 1 0 - - - - - - - - - -  LABEL Disk1_From2_To1
+ - 1 0 - - - - - - - - - => - 0 1 - - - - - - - - -  LABEL Disk1_From2_To3
+ - 1 - 0 - - - - - - - - => - 0 - 1 - - - - - - - -  LABEL Disk1_From2_To4
+ 0 - 1 - - - - - - - - - => 1 - 0 - - - - - - - - -  LABEL Disk1_From3_To1
+ - 0 1 - - - - - - - - - => - 1 0 - - - - - - - - -  LABEL Disk1_From3_To2
+ - - 1 0 - - - - - - - - => - - 0 1 - - - - - - - -  LABEL Disk1_From3_To4
+ 0 - - 1 - - - - - - - - => 1 - - 0 - - - - - - - -  LABEL Disk1_From4_To1
+ - 0 - 1 - - - - - - - - => - 1 - 0 - - - - - - - -  LABEL Disk1_From4_To2
+ - - 0 1 - - - - - - - - => - - 1 0 - - - - - - - -  LABEL Disk1_From4_To3
+ 0 0 - - 1 0 - - - - - - => 0 0 - - 0 1 - - - - - -  LABEL Disk2_From1_To2
+ 0 - 0 - 1 - 0 - - - - - => 0 - 0 - 0 - 1 - - - - -  LABEL Disk2_From1_To3
+ 0 - - 0 1 - - 0 - - - - => 0 - - 0 0 - - 1 - - - -  LABEL Disk2_From1_To4
+ 0 0 - - 0 1 - - - - - - => 0 0 - - 1 0 - - - - - -  LABEL Disk2_From2_To1
+ - 0 0 - - 1 0 - - - - - => - 0 0 - - 0 1 - - - - -  LABEL Disk2_From2_To3
+ - 0 - 0 - 1 - 0 - - - - => - 0 - 0 - 0 - 1 - - - -  LABEL Disk2_From2_To4
+ 0 - 0 - 0 - 1 - - - - - => 0 - 0 - 1 - 0 - - - - -  LABEL Disk2_From3_To1
+ - 0 0 - - 0 1 - - - - - => - 0 0 - - 1 0 - - - - -  LABEL Disk2_From3_To2
+ - - 0 0 - - 1 0 - - - - => - - 0 0 - - 0 1 - - - -  LABEL Disk2_From3_To4
+ 0 - - 0 0 - - 1 - - - - => 0 - - 0 1 - - 0 - - - -  LABEL Disk2_From4_To1
+ - 0 - 0 - 0 - 1 - - - - => - 0 - 0 - 1 - 0 - - - -  LABEL Disk2_From4_To2
+ - - 0 0 - - 0 1 - - - - => - - 0 0 - - 1 0 - - - -  LABEL Disk2_From4_To3
+ 0 0 - - 0 0 - - 1 0 - - => 0 0 - - 0 0 - - 0 1 - -  LABEL Disk3_From1_To2
+ 0 - 0 - 0 - 0 - 1 - 0 - => 0 - 0 - 0 - 0 - 0 - 1 -  LABEL Disk3_From1_To3
+ 0 - - 0 0 - - 0 1 - - 0 => 0 - - 0 0 - - 0 0 - - 1  LABEL Disk3_From1_To4
+ 0 0 - - 0 0 - - 0 1 - - => 0 0 - - 0 0 - - 1 0 - -  LABEL Disk3_From2_To1
+ - 0 0 - - 0 0 - - 1 0 - => - 0 0 - - 0 0 - - 0 1 -  LABEL Disk3_From2_To3
+ - 0 - 0 - 0 - 0 - 1 - 0 => - 0 - 0 - 0 - 0 - 0 - 1  LABEL Disk3_From2_To4
+ 0 - 0 - 0 - 0 - 0 - 1 - => 0 - 0 - 0 - 0 - 1 - 0 -  LABEL Disk3_From3_To1
+ - 0 0 - - 0 0 - - 0 1 - => - 0 0 - - 0 0 - - 1 0 -  LABEL Disk3_From3_To2
+ - - 0 0 - - 0 0 - - 1 0 => - - 0 0 - - 0 0 - - 0 1  LABEL Disk3_From3_To4
+ 0 - - 0 0 - - 0 0 - - 1 => 0 - - 0 0 - - 0 1 - - 0  LABEL Disk3_From4_To1
+ - 0 - 0 - 0 - 0 - 0 - 1 => - 0 - 0 - 0 - 0 - 1 - 0  LABEL Disk3_From4_To2
+ - - 0 0 - - 0 0 - - 0 1 => - - 0 0 - - 0 0 - - 1 0  LABEL Disk3_From4_To3
+
+GOAL 1 0 0 0 1 0 0 0 1 0 0 0

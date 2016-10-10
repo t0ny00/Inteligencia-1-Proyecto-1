@@ -1,0 +1,47 @@
+# "Slide-Jump" peg solitaire puzzle. There are 7 holes arranged in a line.  The first three start off occupied
+# by red pegs (r). The last three start off occupied by yellow pegs (y). The middle hole is empty (e).
+# Red pegs can only move to the right, yellow pegs can only move to the left.
+# A peg can move into the adjacent location (in the appropriate direction) if it is empty.
+# This is called a "slide".
+# A peg can also jump over a peg of the opposite colour if they are adjacent to each other
+# and the location on the other side of the peg being jumped over is empty (the jump can only be in
+# the appropriate direction for the peg that is jumping).
+
+DOMAIN peg 3   # define a domain called "tile" consisting of 3 constants
+       r y e    # these are the constants (e is for empty ("no peg"))
+
+7		# a state is a vector of length 7
+
+peg peg peg peg peg peg peg
+
+# SLIDE BY A RED PEG
+ r e - - - - - => e r - - - - -
+ - r e - - - - => - e r - - - -
+ - - r e - - - => - - e r - - -
+ - - - r e - - => - - - e r - -
+ - - - - r e - => - - - - e r -
+ - - - - - r e => - - - - - e r
+
+# SLIDE BY A YELLOW PEG
+ e y - - - - - => y e - - - - -
+ - e y - - - - => - y e - - - -
+ - - e y - - - => - - y e - - -
+ - - - e y - - => - - - y e - -
+ - - - - e y - => - - - - y e -
+ - - - - - e y => - - - - - y e
+
+# JUMP BY A RED PEG
+ r y e - - - - => e y r - - - -
+ - r y e - - - => - e y r - - -
+ - - r y e - - => - - e y r - -
+ - - - r y e - => - - - e y r -
+ - - - - r y e => - - - - e y r
+
+# JUMP BY A YELLOW PEG
+ e r y - - - - => y r e - - - -
+ - e r y - - - => - y r e - - -
+ - - e r y - - => - - y r e - -
+ - - - e r y - => - - - y r e -
+ - - - - e r y => - - - - y r e
+
+GOAL y y y e r r r
