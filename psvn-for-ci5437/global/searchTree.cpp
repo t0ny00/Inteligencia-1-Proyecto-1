@@ -19,7 +19,12 @@ struct container
 
 int main(int argc, char **argv) {
     
-    //int bound = atoi(argv[1]);
+    if(argc <2){
+        printf("Usage: <max bound>\n");
+        exit(1);
+    }
+
+    int bound = atoi(argv[1]);
 
     int d, ruleid,node_counter,depth,tmp;
     ruleid_iterator_t iter;
@@ -39,7 +44,9 @@ int main(int argc, char **argv) {
     node_counter = 1;
     tmp = -1;
     father.hist = init_history;
-    while( !open.Empty() && depth < 7) {
+
+
+    while( !open.Empty() && depth < bound) {
         // get current distance from goal; since operator costs are
         // non-negative this distance is monotonically increasing
         d = open.CurrentPriority();
