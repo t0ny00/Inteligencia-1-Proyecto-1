@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
     node_counter = 1;
     tmp = -1;
     father.hist = init_history;
-    while( !open.Empty() && depth < 5) {
+    while( !open.Empty() && depth < 7) {
         // get current distance from goal; since operator costs are
         // non-negative this distance is monotonically increasing
         d = open.CurrentPriority();
