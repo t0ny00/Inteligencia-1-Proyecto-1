@@ -38,6 +38,10 @@ psvn2c_abstraction.c:
 	$(CXX) $(OPT)  ../global/searchTree.cpp -include $< -o $@
 	rm -f $*.c
 
+%.dfid: %.c ../global/dfid.cpp
+	$(CXX) $(OPT)  ../global/dfid.cpp -include $< -o $@
+	rm -f $*.c
+
 abstractor:
 	$(CXX) $(OPT) ../src/abstractor.cpp ../src/psvn.cpp -o $@
 
