@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
     father.hist = init_history;
 
 
-    while( !open.Empty() && depth < bound) {
+    while( !open.Empty() && depth <= bound) {
         // get current distance from goal; since operator costs are
         // non-negative this distance is monotonically increasing
         d = open.CurrentPriority();
