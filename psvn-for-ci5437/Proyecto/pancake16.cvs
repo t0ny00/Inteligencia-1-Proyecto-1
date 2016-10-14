@@ -1,0 +1,7 @@
+grupo, algorithm, domain, instance, cost, generated, time, gen_per_sec
+x, dfid, test.txt, '15 14 13 12 11 0 1 2 3 4 5 6 7 8 9 10', 2, 3332, 0.000346, 9.63006e+06
+x, dfid, test.txt, '5 6 7 8 4 3 2 1 0 9 10 11 12 13 14 15', 2, 755, 7.9e-05, 9.55696e+06
+x, dfid, test.txt, '15 0 14 4 11 6 5 3 1 7 8 12 13 2 10 9', na, na, na, na 
+x, dfid, test.txt, '7 8 9 6 5 4 3 2 1 0 10 11 12 13 14 15', 2, 559, 1.8e-05, 3.10556e+07
+x, dfid, test.txt, '7 8 9 10 11 12 6 5 4 3 2 1 0 13 14 15', 2, 1237, 3.7e-05, 3.34324e+07
+x, dfid, test.txt, '1 2 3 4 5 6 7 8 9 10 11 12 13 0 14 15', 2, 2729, 8.6e-05, 3.17326e+07
