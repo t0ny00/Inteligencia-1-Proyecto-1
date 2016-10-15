@@ -3,7 +3,7 @@
 #include <time.h>
 
 
-void boundedDfsVisit(state_t n, int d, int bound, int hist,unsigned results[]){
+void boundedDfsVisit(state_t n, int d, int bound, int hist,unsigned long long results[]){
 
 	int ruleid,hist_child;
 	ruleid_iterator_t iter;
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
     }
 
     bound = atoi(argv[1]);
-	unsigned results[bound+1]={0};
+	unsigned long long results[bound+1]={0};
 
 	hist = init_history;
 	first_goal_state(&root, &d);
@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
 	boundedDfsVisit(root,0,bound,hist,results);
 	
 	for(int i=0; i <= bound ;i++){
-		printf("Depth %d: %d\n",i, results[i]);
+		printf("%llu\n", results[i]);
 	}
 
 	
