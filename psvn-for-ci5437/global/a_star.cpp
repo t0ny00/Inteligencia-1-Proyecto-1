@@ -46,10 +46,11 @@ int heuristic(state_t state){
 	for (unsigned int i = 0 ; i < state_vector.size() - 1 ; i++){
 		tmp = abs(state_array[i] - state_array[i+1]);
 		if (tmp  > 1 ) {h ++;
-			printf("%d + %d \n", state_array[i],state_array[i+1]);
+			//printf("%d + %d \n", state_array[i],state_array[i+1]);
 		}
 	}
-		exit(1);	
+	tmp = abs(state_array[state_vector.size()-1] - (int)state_vector.size());
+	if (tmp > 1) h++;	
 	return h;
 }
 
@@ -213,7 +214,7 @@ int main(int argc, char **argv) {
 	state_t state;
 	clock_t begin,end;
 	container a;
-	read_state("5 11 10 27 26 12 13 23 19 4 3 18 9 8 7 22 20 21 14 15 16 17 25 24 0 1 2 6", &a.state);
+	read_state("25 24 11 10 7 3 15 16 17 18 19 26 27 20 23 0 12 13 14 21 22 4 5 6 8 9 1 2", &a.state);
 	a.cost = 0;
 	begin = clock();
 	aStar(a);
