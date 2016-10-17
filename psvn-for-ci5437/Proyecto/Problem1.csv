@@ -1,4 +1,4 @@
-Pancakes 24,,,,,,
+Pancakes 24,"Numero de Casos Posibles: 24! = 6,204484017×10²³",,,,,
 Deth,N=0,Emp. Branching Factor (N=0),N=1,Emp. Branching Factor (N=1),N=2,Emp. Branching Factor (N=2)
 0,1,23,1,23,1,23
 1,23,23,23,22,23,22
@@ -7,8 +7,11 @@ Deth,N=0,Emp. Branching Factor (N=0),N=1,Emp. Branching Factor (N=1),N=2,Emp. Br
 4,279841,23,244904,22,244860,21.9980274443
 5,6436343,23,5387888,22,5386437,21.9980272674
 6,148035889,0,118533536,0,118490988,0
+"N=0, al nivel 18, la cantidad de nodos supera al numero de casos con 3,24415091×10²⁴ nodos. Calculando con EBF^Deth. (23^18)",,,,,,
+"N=1, al nivel 18, la cantidad de nodos supera al numero de casos con 1,523748917×10²⁴ nodos. Calculando con EBF⁰ * EBF^Deth. (23* 22^17)",,,,,,
+"N=2, al nivel 18, la cantidad de nodos supera al numero de casos con 1,512704806×10²⁴ nodos. Calculando con EBF⁰ * EBF¹ * EBF^Deth. (23* 22* 21.99^17)",,,,,,
 ,,,,,,
-Pancakes 28,,,,,,
+Pancakes 28,"Numero de Casos Posibles: 28! = 3,048883446×10²⁹",,,,,
 Deth,N=0,Emp. Branching Factor,N=1,Emp. Branching Factor,N=2,Emp. Branching Factor
 0,1,27,1,27,1,27
 1,27,27,27,26,27,26
@@ -17,8 +20,11 @@ Deth,N=0,Emp. Branching Factor,N=1,Emp. Branching Factor,N=2,Emp. Branching Fact
 4,531441,27,474552,26,474500,25.9985774499
 5,14348907,27,12338352,26,12336325,25.9985773721
 6,387420489,0,320797152,0,320726900,0
+"Para N=0, al nivel 21, cantidad de nodos supera la cantidad de estados con 1,144561273×10³⁰ nodos. Calculando con EBF^Deth. (27^21)",,,,,,
+"Para N=1, al nivel 21, cantidad de nodos supera la cantidad de estados con 5,380600202×10²⁹ nodos. Calculando con EBF⁰ * EBF^(Deth-1). (27* 26^20)",,,,,,
+"Para N=2, al nivel 21, cantidad de nodos supera la cantidad de estados con 5,341416242×10²⁹ nodos. Calculando con EBF⁰ * EBF¹ *EBF^(Deth-2). (27*26* 25.99^19)",,,,,,
 ,,,,,,
-Puzzle 11,,,,,,
+Puzzle 11,Numero de Casos Posibles: 12!/2 = 239500800,,,,,
 Deth,N=0,Emp. Branching Factor,N=1,Emp. Branching Factor,N=2,Emp. Branching Factor
 0,1,2,1,2,1,2
 1,2,3,2,2,2,2
@@ -41,8 +47,11 @@ Deth,N=0,Emp. Branching Factor,N=1,Emp. Branching Factor,N=2,Emp. Branching Fact
 18,290080335,3.0320004905,180666,1.9311824029,180666,1.9311824029
 19,879523718,3.0324131475,348899,1.9327656428,348899,1.9327656428
 20,2667079286,0,674340,0,674340,0
+"Para N=0, al nivel 20 la cantidad de nodos supera la cantidad de casos.",,,,,,
+"Para N=1 Y n=2, al nivel 29 la cantidad de nodos supera la cantidad de casos con 250550170. Usando EBF^Deth. (1.93^29)",,,,,,
 ,,,,,,
-Top Spin Compact 22-4,,,,,,
+,,,,,,
+Top Spin Compact 22-4,"Numero de Casos Posibles: 22! = 1,124000728×10²¹",,,,,
 Deth,N=0,Emp. Branching Factor,N=1,Emp. Branching Factor,N=2,Emp. Branching Factor
 0,1,22,1,22,1,22
 1,22,22,22,13.5,22,13.5
@@ -52,8 +61,11 @@ Deth,N=0,Emp. Branching Factor,N=1,Emp. Branching Factor,N=2,Emp. Branching Fact
 5,5153632,22,359044,10.2659646172,295838,9.1629405283
 6,113379904,22,3685933,10.2866986459,2710746,9.1298978215
 7,2494357888,0,37916082,0,24748834,0
+"Para N=0, al nivel 16 la cantidad de nodos supera la cantidad de casos con 3,011361496×10²¹ nodos. Calculando con EBF^Deth. (22^16)",,,,,,
+"Para N=1, al nivel 21, cantidad de nodos supera la cantidad de estados con 4,755160209×10²¹ nodos. Calculando con EBF⁰*EBF¹*EBF²*EBF^(Deth-3). (22*13.5*11.21*10.2^18) ",,,,,,
+"Para N=2, al nivel 21, cantidad de nodos supera la cantidad de estados con 7,059798613×10²¹ nodos. Calculando con EBF⁰*EBF¹*EBF²*EBF³*EBF^(Deth-4). (22*13.5*10,88×9.8*9.2^17) ",,,,,,
 ,,,,,,
-Top Spin Compact 26-4,,,,,,
+Top Spin Compact 26-4,"Numero de Casos Posibles: 26! = 4,032914611×10²⁶",,,,,
 Deth,N=0,Emp. Branching Factor,N=1,Emp. Branching Factor,N=2,Emp. Branching Factor
 0,1,26,1,26,1,26
 1,26,26,26,15.5,26,15.5
@@ -63,8 +75,11 @@ Deth,N=0,Emp. Branching Factor,N=1,Emp. Branching Factor,N=2,Emp. Branching Fact
 5,11881376,26,639658,11.0672077892,530056,9.7581632884
 6,308915776,26,7079228,11.1116836469,5172373,9.6820863461
 7,8031810176,0,78662142,0,50079362,0
+"Para N=0, al nivel 19 la cantidad de nodos supera la cantidad de casos con 7,664672652×10²⁶ nodos.",,,,,,
+"Para N=1, al nivel 26, cantidad de nodos supera la cantidad de estados con 3,785679551×10²⁷ nodos.",,,,,,
+"Para N=2, al nivel 26, cantidad de nodos supera la cantidad de estados con 5,807352925×10²⁶ nodos.",,,,,,
 ,,,,,,
-Tower of Hanoi 14-4,,,,,,
+Tower of Hanoi 14-4,Numero de Casos Posibles: 4^14 = 268435456,,,,,
 Deth,N=0,Emp. Branching Factor,N=1,Emp. Branching Factor,,
 0,1,3,1,3,,
 1,3,5,3,5,,
@@ -79,8 +94,11 @@ Deth,N=0,Emp. Branching Factor,N=1,Emp. Branching Factor,,
 10,11161197,5.6702754194,5174019,5.147038888,,
 11,63287061,5.6944059229,26630877,5.169660128,,
 12,360382215,0,137672583,0,,
+"Para N=0, al nivel 12 la cantidad de nodos supera la cantidad de casos con 360382215 nodos.",,,,,,
+"Para N=1, al nivel 13 la cantidad de nodos supera la cantidad de casos con 702130173 nodos.",,,,,,
 ,,,,,,
-Tower of Hanoi 16-4,,,,,,
+,,,,,,
+Tower of Hanoi 16-4,Numero de Casos Posibles: 4^16 = 4294967296,,,,,
 Deth,N=0,Emp. Branching Factor,N=1,Emp. Branching Factor,,
 0,1,3,1,3,,
 1,3,5,3,5,,
@@ -95,3 +113,5 @@ Deth,N=0,Emp. Branching Factor,N=1,Emp. Branching Factor,,
 10,11161197,5.6702754194,5174019,5.147038888,,
 11,63287061,5.6944059229,26630877,5.169660128,,
 12,360382215,0,137672583,0,,
+"Para N=0, al nivel 13 la cantidad de nodos supera la cantidad de casos con 5326529677 nodos.",,,,,,
+"Para N=1, al nivel 14 la cantidad de nodos supera la cantidad de casos con 6103515625 nodos.",,,,,,
