@@ -6,7 +6,7 @@ CC = gcc
 CXX = g++
 OPT = -g -Wall -O3 -Wno-unused-function -Wno-unused-variable
 
-PSVNOPT = --state_map --backward_moves --history_len=0
+PSVNOPT = --state_map --backward_moves --history_len=1
 
 psvn2c_core.c:
 	cp ../../src/psvn2c_core.c ./psvn2c_core.c
@@ -49,6 +49,10 @@ psvn2c_abstraction.c:
 
 %.a_star: %.c ../../global/a_star.cpp
 	$(CXX) $(OPT)  ../../global/a_star.cpp -include $< -o $@
+	rm -f $*.c
+
+%.ida: %.c ../../global/ida.cpp
+	$(CXX) $(OPT)  ../../global/ida.cpp -include $< -o $@
 	rm -f $*.c
 
 abstractor:
