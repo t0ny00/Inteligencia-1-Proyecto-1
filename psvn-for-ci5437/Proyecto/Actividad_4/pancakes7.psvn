@@ -1,0 +1,17 @@
+# This file was created by genPancake.cpp with the following command line parameters:
+#  7
+
+# number of state variables = the number of pancakes
+7
+
+# All state variables have 7 possible values.
+ 7 7 7 7 7 7 7
+
+X0 X1 -  -  -  -  -  => X1 X0 -  -  -  -  -  LABEL Rev2
+X0 X1 X2 -  -  -  -  => X2 X1 X0 -  -  -  -  LABEL Rev3
+X0 X1 X2 X3 -  -  -  => X3 X2 X1 X0 -  -  -  LABEL Rev4
+X0 X1 X2 X3 X4 -  -  => X4 X3 X2 X1 X0 -  -  LABEL Rev5
+X0 X1 X2 X3 X4 X5 -  => X5 X4 X3 X2 X1 X0 -  LABEL Rev6
+X0 X1 X2 X3 X4 X5 X6 => X6 X5 X4 X3 X2 X1 X0 LABEL Rev7
+
+GOAL 0 1 2 3 4 5 6 
