@@ -18,6 +18,25 @@ double seconds;
 
 time_t t1,t2;
 
+int array[16][16] = {
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+		{1,0,1,2,2,1,2,3,3,2,3,4,4,3,4,5},
+		{2,1,0,1,3,2,1,2,4,3,2,3,5,4,3,4},
+		{3,2,1,0,4,3,2,1,5,4,3,2,6,5,4,3},
+		{1,2,3,4,0,1,2,3,1,2,3,4,2,3,4,5},
+		{2,1,2,3,1,0,1,2,2,1,2,3,3,2,3,4},
+		{3,2,1,2,2,1,0,1,3,2,1,2,4,3,2,3},
+		{4,3,2,1,3,2,1,0,4,3,2,1,5,4,3,2},
+		{2,3,4,5,1,2,3,4,0,1,2,3,1,2,3,4},
+		{3,2,3,4,2,1,2,3,1,0,1,2,2,1,2,3},
+		{4,3,2,3,3,2,1,2,2,1,0,1,3,2,1,2},
+		{5,4,3,2,4,3,2,1,3,2,1,0,4,3,2,1},
+		{3,4,5,6,2,3,4,5,1,2,3,4,0,1,2,3},
+		{4,3,4,5,3,2,3,4,2,1,2,3,1,0,1,2},
+		{5,4,3,4,4,3,2,3,3,2,1,2,2,1,0,1},
+		{6,5,4,3,5,4,3,2,4,3,2,1,3,2,1,0}
+	};
+
 struct container
 {
     state_t state;
@@ -57,155 +76,114 @@ int heuristic(state_t state){
 	return h;
 }
 
-// void aStar(container init){
+void buildManhattan(int array[][16]){
+	// array[16][16] = {
+	// 	{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	// 	{1,0,1,2,2,1,2,3,3,2,3,4,4,3,4,5},
+	// 	{2,1,0,1,3,2,1,2,4,3,2,3,5,4,3,4},
+	// 	{3,2,1,0,4,3,2,1,5,4,3,2,6,5,4,3},
+	// 	{1,2,3,4,0,1,2,3,1,2,3,4,2,3,4,5},
+	// 	{2,1,2,3,1,0,1,2,2,1,2,3,3,2,3,4},
+	// 	{3,2,1,2,2,1,0,1,3,2,1,2,4,3,2,3},
+	// 	{4,3,2,1,3,2,1,0,4,3,2,1,5,4,3,2},
+	// 	{2,3,4,5,1,2,3,4,0,1,2,3,1,2,3,4},
+	// 	{3,2,3,4,2,1,2,3,1,0,1,2,2,1,2,3},
+	// 	{4,3,2,3,3,2,1,2,2,1,0,1,3,2,1,2},
+	// 	{5,4,3,2,4,3,2,1,3,2,1,0,4,3,2,1},
+	// 	{3,4,5,6,2,3,4,5,1,2,3,4,0,1,2,3},
+	// 	{4,3,4,5,3,2,3,4,2,1,2,3,1,0,1,2},
+	// 	{5,4,3,4,4,3,2,3,3,2,1,2,2,1,0,1},
+	// 	{6,5,4,3,5,4,3,2,4,3,2,1,3,2,1,0}
+	// };
 	
-// 	/*
-// 	0: Black
-// 	1: Gray
-// 	2: White
-// 	*/
-// 	container father,child;
+	// int p,q;
+	// p = 0;
+	// q = 0;
+	// int tmp[4][4];
+	// for (int i = 0; i < 4; i++){
+	// 	for (int j = 0; j < 4; j++){
+	// 		for (int h = 0; h < 4; h++){
+	// 			for (int k = 0; k < 4; k++){
+	// 				tmp[h][k] = abs(i-h) + abs(j-k);
+	// 			}
+	// 		printf("%d %d %d %d\n",tmp[h][0],tmp[h][1],tmp[h][2],tmp[h][3] );		
+				
+	// 			// for (int q = 0; q < 16; q++){
+	// 			// 	array[p][q] = 
+	// 			// }	
+
+	// 			// for (q = 0; q < 4; q++)
+	// 			// {
+	// 			//     for (int t = 0; t < 4; t++)
+	// 			//     {
+	// 			//         array[p][q * 4 + t] = tmp[q][t];
+	// 			//     }
+	// 			// }
+	// 			// p++;
+	// 		}
+	// 		printf("\n");
+	// 	}
+	// }
+}
+
+
+int heuristic2(state_t state){
+	int h,tmp;
+	vector<int> state_vector;
+	char state_s[1024];
+	sprint_state(state_s,1024, &state);
+	split(state_s,' ',state_vector);
+	int* state_array = &state_vector[0];
+	h = 0;
+	for (unsigned int i = 0 ; i < state_vector.size(); i++){
+		//printf("%d: %d\n", state_array[i], array[state_array[i]][i]);
+		h += array[state_array[i]][i]; 
+	}
+		//printf("===\n");
+	return h;
+}
+
+// void expand(container father ,state_map_t *map_color, state_map_t *map_cost, PriorityQueue<container> &open){
+
+// 	container child;
 // 	ruleid_iterator_t iter;
 // 	int ruleid,h,*g;
-// 	PriorityQueue<container> open;
-// 	//state_map_t *map_color = new_state_map();
-// 	state_map_t *map_cost = new_state_map();
-// 	state_map_add(map_cost, &init.state, 0);
-// 	init.hist = init_history;
-// 	//state_map_add(map_color, &init.state, 1);
-// 	open.Add(heuristic(init.state),heuristic(init.state),init);
-// 	printf("h0:  %d\n",heuristic(init.state) );
-// 	nodes_generated++;
-// 	while( !open.Empty() ) {
-// 		father = open.Top();
-//         int a = open.CurrentPriority();
-//         //printf("%d\n", a); 
-//         open.Pop();
-//         g = state_map_get(map_cost,&father.state);
-//         if (g == NULL || father.cost <= *g){	
-//         	state_map_add(map_cost, &father.state, father.cost);
-//         	if (is_goal(&father.state) == 1){ 
-// 				printf("%d\n",father.cost );
-//         		return ;}
-// 			init_fwd_iter(&iter, &father.state);
-// 	        while( (ruleid = next_ruleid(&iter) ) >= 0 ) {
-// 	        	if (!fwd_rule_valid_for_history(father.hist,ruleid)) continue;
-// 	        	child.hist = next_fwd_history(father.hist,ruleid);
-// 	            apply_fwd_rule(ruleid, &father.state, &child.state);
-// 	            h = heuristic(child.state);
-// 	            nodes_generated++;
-// 	        	// print_state(stdout,&child.state);
-// 	        	// printf("    %d\n",child.cost);
-	        
-// 	            if (h < INT_MAX) {
 
-// 	            	//state_map_add(map_color, &child.state, 1);
-// 	            	child.cost = father.cost+1;
-// 	            	open.Add(h+father.cost+1,h+father.cost+1,child);
-// 	            }
-// 	        }
-// 	        //state_map_add(map_color, &child.state, 0);
+// 	init_fwd_iter(&iter, &father.state);
+//     while( (ruleid = next_ruleid(&iter) ) >= 0 ) {
+//         apply_fwd_rule(ruleid, &father.state, &child.state);
+//         h = heuristic(child.state);
+//         if (h == INT_MAX) continue;
+//         child.cost = father.cost+1;
+//     	h = heuristic(child.state);
+//     	const int *child_c = state_map_get(map_color, &child.state);
+//         if (child_c == NULL){
+//         	state_map_add(map_color, &child.state, 1);
+//         	state_map_add(map_cost, &child.state, child.cost);
+//         	open.Add(h+child.cost,h+child.cost,child);
+//         	nodes_generated++;
+//         } 
+//         else if (child.cost <= *state_map_get(map_cost, &child.state)){
+//         	state_map_add(map_cost, &child.state, child.cost);
+//         	if (*child_c == 1){
+//         		open.Modify(h+child.cost,h+child.cost,0,child);
+//         	}
+//         	else{
+//         		state_map_add(map_color, &child.state, 1);
+//         		open.Add(h+child.cost,h+child.cost,child);
+//         nodes_generated++;
+//         	}
+//         }
+//     	// print_state(stdout,&child.state);
+//     	// printf("    %d\n",child.cost);
 
-        	        	
-//     	}
-
-// 	}
-// 	return;
+//         	//state_map_add(map_color, &child.state, 1);
+//         	// child.cost = father.cost+1;
+//         	// open.Add(h+father.cost+1,h+father.cost+1,child);
+        
+//     }
 // }
 
-
-
-
-void expand(container father ,state_map_t *map_color, state_map_t *map_cost, PriorityQueue<container> &open){
-
-	container child;
-	ruleid_iterator_t iter;
-	int ruleid,h,*g;
-
-	init_fwd_iter(&iter, &father.state);
-    while( (ruleid = next_ruleid(&iter) ) >= 0 ) {
-        apply_fwd_rule(ruleid, &father.state, &child.state);
-        h = heuristic(child.state);
-        if (h == INT_MAX) continue;
-        child.cost = father.cost+1;
-    	h = heuristic(child.state);
-    	const int *child_c = state_map_get(map_color, &child.state);
-        if (child_c == NULL){
-        	state_map_add(map_color, &child.state, 1);
-        	state_map_add(map_cost, &child.state, child.cost);
-        	open.Add(h+child.cost,h+child.cost,child);
-        	nodes_generated++;
-        } 
-        else if (child.cost <= *state_map_get(map_cost, &child.state)){
-        	state_map_add(map_cost, &child.state, child.cost);
-        	if (*child_c == 1){
-        		open.Modify(h+child.cost,h+child.cost,0,child);
-        	}
-        	else{
-        		state_map_add(map_color, &child.state, 1);
-        		open.Add(h+child.cost,h+child.cost,child);
-        nodes_generated++;
-        	}
-        }
-    	// print_state(stdout,&child.state);
-    	// printf("    %d\n",child.cost);
-
-        	//state_map_add(map_color, &child.state, 1);
-        	// child.cost = father.cost+1;
-        	// open.Add(h+father.cost+1,h+father.cost+1,child);
-        
-    }
-}
-
-void aStar(container init){
-	
-	/*
-	0: Black
-	1: Gray
-	2: White
-	*/
-	container father,child;
-	ruleid_iterator_t iter;
-	int ruleid,h,*g;
-	PriorityQueue<container> open;
-	state_map_t *map_color = new_state_map();
-	state_map_t *map_cost = new_state_map();
-	state_map_add(map_cost, &init.state, 0);
-	state_map_add(map_color, &init.state, 1);
-	printf("h0:  %d\n",heuristic(init.state) );
-	open.Add(heuristic(init.state),heuristic(init.state),init);
-	nodes_generated++;
-	while( !open.Empty() ) {
-		father = open.Top();
-        open.Pop();
-
-    	if (is_goal(&father.state) == 1){ 
-			printf("%d\n",father.cost );
-    		return ;}
-
-    	expand(father,map_color, map_color, open);
-    	
-		// init_fwd_iter(&iter, &father.state);
-  //       while( (ruleid = next_ruleid(&iter) ) >= 0 ) {
-  //           apply_fwd_rule(ruleid, &father.state, &child.state);
-  //           h = heuristic(child.state);
-  //       	print_state(stdout,&child.state);
-  //       	printf("    %d\n",child.cost);
-  //           if (h < INT_MAX) {
-
-  //           	//state_map_add(map_color, &child.state, 1);
-  //           	child.cost = father.cost+1;
-  //           	open.Add(h+father.cost+1,h+father.cost+1,child);
-  //           }
-  //       }
-        state_map_add(map_color, &child.state, 0);
-
-        	        	
-    	
-
-	}
-	return;
-}
 
 
 container fBoundDfS(container father, int bound){
@@ -214,12 +192,11 @@ container fBoundDfS(container father, int bound){
 	container result,child;
 	int ruleid;
 	nodes_generated++;
-	//print_state(stdout,&father.state);
-	//printf("    %d\n",father.cost);
-	int f = father.cost + heuristic(father.state)+1;
+	int f = father.cost + heuristic2(father.state) +1;
+	print_state(stdout,&father.state);
+	printf("    %d    %d\n",bound,father.cost);
 	
 	if (is_goal(&father.state) == 1) {
-		father.cost++;
 		father.goal = true;
 		return father;
 	}
@@ -250,7 +227,7 @@ container fBoundDfS(container father, int bound){
 
 int ida(container root){
 	root.hist = init_history;
-	int bound = heuristic(root.state);
+	int bound = heuristic2(root.state);
 	container result;
 	printf("%d\n", bound);
 	while(true){
@@ -267,10 +244,13 @@ int ida(container root){
 
 int main(int argc, char **argv) {
 
+	
+
+
 	state_t state;
 	clock_t begin,end;
 	container a;
-	read_state("25 24 11 10 7 3 15 16 17 18 19 26 27 20 23 0 12 13 14 21 22 4 5 6 8 9 1 2", &a.state);
+	read_state("6 11 1 4    2 5 14 13    7 12 8 10    15 B 3 9", &a.state);
 	a.cost = 0;
 	begin = clock();
 	int g = ida(a);
