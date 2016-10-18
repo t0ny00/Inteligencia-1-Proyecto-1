@@ -250,7 +250,7 @@ int main(int argc, char **argv) {
 	state_t state;
 	clock_t begin,end;
 	container a;
-	read_state("6 11 1 4    2 5 14 13    7 12 8 10    15 B 3 9", &a.state);
+	read_state("6 11 1 4 2 5 14 13 7 12 8 10 15 B 3 9", &a.state);
 	a.cost = 0;
 	begin = clock();
 	int g = ida(a);
