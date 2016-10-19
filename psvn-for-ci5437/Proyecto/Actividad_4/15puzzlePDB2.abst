@@ -1,0 +1,4 @@
+abstraction {
+  TILE { B B B B B B 6 7 8 9 10 B B B B B }
+  projection { K K K K K K K K K K K K K K K K }
+}

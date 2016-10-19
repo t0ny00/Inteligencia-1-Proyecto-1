@@ -11,11 +11,12 @@ using namespace std;
 
 unsigned long long nodes_generated = 0;
 
-clock_t beginTimer,endTimer;
+clock_t begin,end;
 double elapsed_timer;
 bool timeout = false;
 double seconds;
-
+abstraction_t *abst[3];
+state_map_t *pdb[3];
 time_t t1,t2;
 
 struct container
@@ -25,36 +26,24 @@ struct container
     int cost;
 };
 
-void split(const std::string &s, char delim, vector<int> &elems) {
-    stringstream ss;
-    ss.str(s);
-    string item;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(atoi( item.c_str() ));
-    }
-}
-
-
 int heuristic(state_t state){
-	int h,tmp;
-	vector<int> state_vector;
-	char state_s[1024];
-	sprint_state(state_s,1024, &state);
-	split(state_s,' ',state_vector);
-	int* state_array = &state_vector[0];
-	h = 0;
-	for (unsigned int i = 0 ; i < state_vector.size() - 1 ; i++){
-		tmp = abs(state_array[i] - state_array[i+1]);
-		if (tmp  > 1 ) {h ++;
-			//printf("%d + %d \n", state_array[i],state_array[i+1]);
-		}
+	
+	int h = 0;
+	int *pdb_value;
+	
+	for (int i = 0; i < 3; ++i)
+	{
+	    state_t abst_state;
+	    abstract_state(abst[i], &state, &abst_state);
+	    pdb_value = state_map_get(pdb[i], &abst_state);
+	    assert(pdb_value != 0);
+    	h += *pdb_value;
 	}
-	tmp = abs(state_array[state_vector.size()-1] - (int)state_vector.size());
-	if (tmp > 1) h++;	
+
 	return h;
 }
 
-// void aStar(container init){
+// int aStar(container init){
 	
 // 	/*
 // 	0: Black
@@ -82,8 +71,8 @@ int heuristic(state_t state){
 //         if (g == NULL || father.cost <= *g){	
 //         	state_map_add(map_cost, &father.state, father.cost);
 //         	if (is_goal(&father.state) == 1){ 
-// 				printf("%d\n",father.cost );
-//         		return ;}
+//         		return father.cost;
+//         	}
 // 			init_fwd_iter(&iter, &father.state);
 // 	        while( (ruleid = next_ruleid(&iter) ) >= 0 ) {
 // 	        	if (!fwd_rule_valid_for_history(father.hist,ruleid)) continue;
@@ -107,7 +96,7 @@ int heuristic(state_t state){
 //     	}
 
 // 	}
-// 	return;
+// 	return father.cost;
 // }
 
 
@@ -154,7 +143,7 @@ void expand(container father ,state_map_t *map_color, state_map_t *map_cost, Pri
     }
 }
 
-void aStar(container init){
+int aStar(container init){
 	
 	/*
 	0: Black
@@ -177,8 +166,8 @@ void aStar(container init){
         open.Pop();
 
     	if (is_goal(&father.state) == 1){ 
-			printf("%d\n",father.cost );
-    		return ;}
+    		return father.cost;
+    	}
 
     	expand(father,map_color, map_color, open);
     	
@@ -201,7 +190,7 @@ void aStar(container init){
     	
 
 	}
-	return;
+	return INT_MAX;
 }
 
 
@@ -211,114 +200,139 @@ void aStar(container init){
 
 int main(int argc, char **argv) {
 
-	state_t state;
-	clock_t begin,end;
-	container a;
-	read_state("5 6 10 11 14 12 13 18 17 16 15 3 0 1 2 26 25 24 23 4 19 9 8 7 20 21 22 27", &a.state);
-	a.cost = 0;
-	begin = clock();
-	aStar(a);
-	end = clock();
-
-	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-	printf("%llu\n", nodes_generated);
-	printf("Tiempo: %f\n", elapsed_secs);
+	if( argc < 6 ) {
+        printf("Usage: %s <instances> <outfile> <pdb1> <pdb2> <pdb3>\n", argv[0]);
+        exit(-1);
+    }
+	    
+	char pdb_name[1024];
+	char pdb_fname[1024], abst_fname[1024];
+	FILE *pdb_file;
 	
-	// container root,n;
-	// unsigned bound = 0;
-	// int hist;
-	// string line;
-	// char stateChar[256];
+	
+	for(int i = 3; i < 6; i++){
+
+	    strcpy(pdb_name,argv[i]);
+	    strcpy(pdb_fname, pdb_name);
+	    strcat(pdb_fname, ".pdb");
+	    strcpy(abst_fname, pdb_name);
+	    strcat(abst_fname, ".abst");
+	    printf("reading pdb into memory: abst=%s\n", abst_fname);
+	    abst[i-3] = read_abstraction_from_file(abst_fname);
+	    pdb_file = fopen(pdb_fname, "r");
+	    pdb[i-3] = read_state_map(pdb_file);
+	    fclose(pdb_file);
+		
+	}
+
+	// state_t state;
 	// clock_t begin,end;
-	
+	// container a;
+	// read_state("25 24 11 10 7 3 15 16 17 18 19 26 27 20 23 0 12 13 14 21 22 4 5 6 8 9 1 2", &a.state);
+	// a.cost = 0;
+	// begin = clock();
+	// aStar(a);
+	// end = clock();
 
-	// if(argc <3){
- //        printf("Usage: <input file> <output file>\n");
- //        exit(1);
- //    }
-	
-    
-	// ifstream myfile (argv[1]);
-	// std::string path = argv[1];
-	// ofstream outfile (argv[2]);
-	// outfile << "grupo, algorithm, domain, instance, cost, generated, time, gen_per_sec\n";
-	
-	// if (myfile.is_open()){
+	// double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+	// printf("%llu\n", nodes_generated);
+	// printf("Tiempo: %f\n", elapsed_secs);
+	    
 
-	// 	while ( getline (myfile,line) ){
+	
+	// clock_t begin,end;
+	// container a;
+	// read_state("14 13 15 7 11 12 9 5 6 B 2 1 4 8 10 3", &a.state);
+	// a.cost = 0;
+	// begin = clock();
+	// int g = ida(a);
+	// end = clock();
+
+	// double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+	// printf("costo:  %d\n", g);
+	// printf("%llu\n", nodes_generated);
+	// printf("Tiempo: %f\n", elapsed_secs);
+	// printf("Tiempo2: %f\n", total);
+	
+    char stateChar[256];
+	ifstream myfile (argv[1]);
+	std::string path = argv[1];
+	ofstream outfile (argv[2]);
+	string line;
+	container root;
+	outfile << "grupo, algorithm, domain, instance, cost,h0, generated, time, gen_per_sec\n";
+
+	if (myfile.is_open()){
+
+		while ( getline (myfile,line) ){
 		  	
-	// 		strncpy(stateChar, line.c_str(), sizeof(stateChar));
-	// 		stateChar[sizeof(stateChar) - 1] = 0;
-	// 		hist = init_history;
-
-	// 		read_state(stateChar,&root.state);
-	// 		nodes_generated++;
+			strncpy(stateChar, line.c_str(), sizeof(stateChar));
+			stateChar[sizeof(stateChar) - 1] = 0;
+			read_state(stateChar,&root.state);
 			
-	// 		// print_state(stdout,&root.state);
-	// 		// printf("\n%d\n", nodes_generated);
-
-	// 		begin = clock();
-	// 		// beginTimer = clock();
-	// 		t1 = time(NULL);
-
-	// 		while(1){
-	// 			n = boundedDfsVisit(root,0,bound,hist);
-	// 			if (n.goal != false) break;
-	// 			bound++;
-	// 			// endTimer = clock();
-	// 			//t2 = time(NULL);
-	// 			//seconds = difftime(t2,t1);
-	// 			//printf("%f\n",seconds );
-	// 			// elapsed_timer = double(endTimer - beginTimer) / CLOCKS_PER_SEC;
-	// 			if(seconds > t_max || timeout){
-	// 				timeout = true;
-	// 				break;
-	// 			}
-	// 		}
-	// 		end = clock();
-
-	// 		double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 			
-	// 		printf("Estado: ");
-	// 		print_state(stdout,&root.state);
-	// 		if (!timeout){
-	// 			printf("\nNodos generados: %llu\n", nodes_generated);
-	// 			printf("Costo: %d\n", n.cost);
-	// 			printf("Tiempo: %f\n", elapsed_secs);
-	// 			printf("Nodos/seg: %f\n", nodes_generated/elapsed_secs);
-	// 			printf("==================\n");
-	// 			outfile << "x, dfid, ";
-	// 			outfile << path.substr(path.find_last_of("\\/")+1,path.find_last_of(".")) << ", ";
-	// 			outfile << "'" << stateChar << "', ";
-	// 			outfile << n.cost << ", ";
-	// 			outfile << nodes_generated << ", ";
-	// 			outfile << elapsed_secs << ", ";
-	// 			outfile << nodes_generated/elapsed_secs << endl;
-	// 		}
-	// 		else {
-	// 			printf("\nNodos generados: na\n");
-	// 			printf("Costo: na\n");
-	// 			printf("Tiempo: na\n");
-	// 			printf("Nodos/seg: na\n");
-	// 			printf("==================\n");
-	// 			outfile << "x, dfid, ";
-	// 			outfile << path.substr(path.find_last_of("\\/")+1,path.find_last_of(".")) << ", ";
-	// 			outfile << "'" << stateChar << "', ";
-	// 			outfile << "na, na, na, na "<< endl;
-	// 			timeout = false; 
-	// 		}
-	// 		nodes_generated = 0;
-	// 		n.cost = 0;
-	// 		bound = 0;
-	// 	}
+			// print_state(stdout,&root.state);
+			// printf("\n%d\n", nodes_generated);
 
-	// 	myfile.close();
-	// 	outfile.close();
-	// }
-	// else {
-	// 	cout << "No existe el archivo especificado\n";
-	// 	exit(1);
-	// }
+			begin = clock();
+			int h = heuristic(root.state);
+			root.cost = 0;
+			int cost = aStar(root);
+			//t1 = time(NULL);
+
+			
+			// if(seconds > t_max || timeout){
+			// 	timeout = true;
+			// 	break;
+			// }
+			
+			end = clock();
+
+			double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+			
+			printf("Estado: ");
+			print_state(stdout,&root.state);
+			if (!timeout){
+				printf("\nNodos generados: %llu\n", nodes_generated);
+				printf("Costo: %d\n", cost);
+				printf("h0: %d\n", h);
+				printf("Tiempo: %f\n", elapsed_secs);
+				printf("Nodos/seg: %f\n", nodes_generated/elapsed_secs);
+				printf("==================\n");
+				outfile << "x, dfid, ";
+				outfile << path.substr(path.find_last_of("\\/")+1,path.find_last_of(".")) << ", ";
+				outfile << "'" << stateChar << "', ";
+				outfile << cost << ", ";
+				outfile << h << ", ";
+				outfile << nodes_generated << ", ";
+				outfile << elapsed_secs << ", ";
+				outfile << nodes_generated/elapsed_secs << endl;
+			}
+			else {
+				printf("\nNodos generados: na\n");
+				printf("Costo: na\n");
+				printf("h0: %d\n", h);
+				printf("Tiempo: na\n");
+				printf("Nodos/seg: na\n");
+				printf("==================\n");
+				outfile << "x, dfid, ";
+				outfile << path.substr(path.find_last_of("\\/")+1,path.find_last_of(".")) << ", ";
+				outfile << "'" << stateChar << "', ";
+				outfile << "na,";
+				outfile << h << ", "; 
+				outfile << "na, na, na "<< endl;
+				timeout = false; 
+			}
+			nodes_generated = 0;
+		}
+
+		myfile.close();
+		outfile.close();
+	}
+	else {
+		cout << "No existe el archivo especificado\n";
+		exit(1);
+	}
 
 	
 	

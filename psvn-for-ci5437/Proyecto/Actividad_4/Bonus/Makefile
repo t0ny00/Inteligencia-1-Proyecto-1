@@ -9,16 +9,16 @@ OPT = -g -Wall -O3 -Wno-unused-function -Wno-unused-variable
 PSVNOPT = --state_map --backward_moves --history_len=1
 
 psvn2c_core.c:
-	cp ../../src/psvn2c_core.c ./psvn2c_core.c
+	cp ../../../src/psvn2c_core.c ./psvn2c_core.c
 
 psvn2c_state_map.c:
-	cp ../../src/psvn2c_state_map.c ./psvn2c_state_map.c
+	cp ../../../src/psvn2c_state_map.c ./psvn2c_state_map.c
 
 psvn2c_abstraction.c:
-	cp ../../src/psvn2c_abstraction.c ./psvn2c_abstraction.c
+	cp ../../../src/psvn2c_abstraction.c ./psvn2c_abstraction.c
 
 %.c: %.psvn psvn2c_core.c psvn2c_state_map.c psvn2c_abstraction.c
-	../../bin/psvn2c $(PSVNOPT) --name=$(*F) < $< > $@
+	../../../bin/psvn2c $(PSVNOPT) --name=$(*F) < $< > $@
 	rm -f ./psvn2c_core.c ./psvn2c_state_map.c ./psvn2c_abstraction.c
 
 .PRECIOUS: %.c
@@ -51,36 +51,16 @@ psvn2c_abstraction.c:
 	$(CXX) $(OPT)  ../../global/a_star.cpp -include $< -o $@
 	rm -f $*.c
 
-%.a_starGap: %.c ../../global/a_starGap.cpp
-	$(CXX) $(OPT)  ../../global/a_starGap.cpp -include $< -o $@
+%.ida: %.c ../../../global/ida.cpp
+	$(CXX) $(OPT)  ../../../global/ida.cpp -include $< -o $@
 	rm -f $*.c
 
-%.a_starMan: %.c ../../global/a_starMan.cpp
-	$(CXX) $(OPT)  ../../global/a_starMan.cpp -include $< -o $@
-	rm -f $*.c
-
-%.a_starPDB: %.c ../../global/a_starPDB.cpp
-	$(CXX) $(OPT)  ../../global/a_starPDB.cpp -include $< -o $@
-	rm -f $*.c
-
-%.ida: %.c ../../global/ida.cpp
-	$(CXX) $(OPT)  ../../global/ida.cpp -include $< -o $@
-	rm -f $*.c
-
-%.idaPDB: %.c ../../global/idaPDB.cpp
-	$(CXX) $(OPT)  ../../global/idaPDB.cpp -include $< -o $@
-	rm -f $*.c
-
-%.idaGap: %.c ../../global/idaGap.cpp
-	$(CXX) $(OPT)  ../../global/idaGap.cpp -include $< -o $@
-	rm -f $*.c
-
-%.idaMan: %.c ../../global/idaMan.cpp
-	$(CXX) $(OPT)  ../../global/idaMan.cpp -include $< -o $@
+%.idaPDB: %.c ../../../global/idaPDB.cpp
+	$(CXX) $(OPT)  ../../../global/idaPDB.cpp -include $< -o $@
 	rm -f $*.c
 
 abstractor:
-	$(CXX) $(OPT) ../../src/abstractor.cpp ../../src/psvn.cpp -o $@
+	$(CXX) $(OPT) ../../../src/abstractor.cpp ../../../src/psvn.cpp -o $@
 
 %.pdb: abstractor
 	@rm -f `basename $*`.abst `basename $*`.pdb `basename $*`.psvn
@@ -89,8 +69,8 @@ abstractor:
 	echo Calculating `basename $*.pdb` ...
 	@./`basename $*`.distSummary `basename $*`.pdb
 
-%.dist_pdb: %.c ../../global/dist_pdb.cpp
-	$(CXX) $(OPT) ../../global/dist_pdb.cpp -include $< -o $@
+%.dist_pdb: %.c ../../../global/dist_pdb.cpp
+	$(CXX) $(OPT) ../../../global/dist_pdb.cpp -include $< -o $@
 	rm -f $*.c
 
 .PHONY: clean
