@@ -9,12 +9,14 @@ if len(sys.argv) != 3:
 
 input_file = open(sys.argv[1], 'r')
 output_file = open(sys.argv[2], 'w')
+output_file.write("grupo, algorithm, domain, instance, cost,h0, generated, time, gen_per_sec\n")
 
 # Creates tmp file for the program to write in
 tmp_out = open('tmp_out','w')
 tmp_out.close()
 
 for line in input_file:
+	print("Now executing test: " + line)
 	tmp_in = open('tmp_in','w')
 	tmp_in.write(line)
 	tmp_in.close()
@@ -25,10 +27,12 @@ for line in input_file:
 
 	if process.returncode == 0:
 		# process execution finalizes with sucess
-		output_file.write(tmp_out.read())
+		newline = tmp_out.readlines()[1]
 	else:
 		# Something went wrong (most probably mem stuff)
-		output_file.write("x, astar, entrada, '"+ line +"', na, na, na, na, na")
+		newline = "x, astar, entrada, '"+ line[:-1] +"', na, na, na, na, na\n"
+	output_file.write(newline)
+	print("Done.")
 	tmp_out.close()
 
 	# deletes the in tmp file and creates it again in next iteration
