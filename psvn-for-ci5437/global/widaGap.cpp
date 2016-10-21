@@ -15,6 +15,7 @@ clock_t begin,end;
 double elapsed_timer;
 
 
+
 struct container
 {
     state_t state;
@@ -26,49 +27,32 @@ struct container
 
 
 
-//Matrix wich contains the number of moves required for every tile to reach its final position
-int arrayManhattan[16][16] = {
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-		{1,0,1,2,2,1,2,3,3,2,3,4,4,3,4,5},
-		{2,1,0,1,3,2,1,2,4,3,2,3,5,4,3,4},
-		{3,2,1,0,4,3,2,1,5,4,3,2,6,5,4,3},
-		{1,2,3,4,0,1,2,3,1,2,3,4,2,3,4,5},
-		{2,1,2,3,1,0,1,2,2,1,2,3,3,2,3,4},
-		{3,2,1,2,2,1,0,1,3,2,1,2,4,3,2,3},
-		{4,3,2,1,3,2,1,0,4,3,2,1,5,4,3,2},
-		{2,3,4,5,1,2,3,4,0,1,2,3,1,2,3,4},
-		{3,2,3,4,2,1,2,3,1,0,1,2,2,1,2,3},
-		{4,3,2,3,3,2,1,2,2,1,0,1,3,2,1,2},
-		{5,4,3,2,4,3,2,1,3,2,1,0,4,3,2,1},
-		{3,4,5,6,2,3,4,5,1,2,3,4,0,1,2,3},
-		{4,3,4,5,3,2,3,4,2,1,2,3,1,0,1,2},
-		{5,4,3,4,4,3,2,3,3,2,1,2,2,1,0,1},
-		{6,5,4,3,5,4,3,2,4,3,2,1,3,2,1,0}
-	};
+/*Gap heuristic where if a pancake is 2 or more sizes different than the one next to it, is counted as
+ towards the final value*/
 
-	
-/*Given a tile and its current position calculate the h value based on the sum of all the values of each tiles and how
-	far they are from their final position*/
 int heuristic(state_t state){
-	int h = 0;
-	for (long unsigned int i = 0 ; i < 16; i++){
-		h += arrayManhattan[state.vars[i]][i]; 
+	int h;
+
+	h = 0;
+	for (int i = 0 ; i < 28 - 1 ; i++){
+		if (abs(state.vars[i] - state.vars[i+1])  > 1 ) h ++;
 	}
+	
+	if (abs(state.vars[27] - 28) > 1) h++; // Check if the bottom pancake is the biggest one
 	return h;
 }
 
 
 
 
-
-container fBoundDfS(container father, int bound){
+container fBoundDfS(container father, float bound,float weight){
 	
 	ruleid_iterator_t iter;
 	container result,child;
 	int ruleid;
 	nodes_generated++;
 	
-	int f = father.cost + heuristic(father.state);
+	float f = father.cost + weight*heuristic(father.state);
 	
 	
 	if (is_goal(&father.state) == 1) {
@@ -89,7 +73,7 @@ container fBoundDfS(container father, int bound){
     	child.hist = next_fwd_history(father.hist,ruleid);
     	apply_fwd_rule(ruleid, &father.state, &child.state);
     	child.cost = father.cost+1;
-        result = fBoundDfS(child,bound);
+        result = fBoundDfS(child,bound,weight);
         if (result.goal) return result;
         t = min(t,result.bound);
 
@@ -100,12 +84,12 @@ container fBoundDfS(container father, int bound){
     return result;
 }
 
-int ida(container root){
+int wida(container root,float weight){
 	root.hist = init_history;
-	int bound = heuristic(root.state);
+	float bound = weight*heuristic(root.state);
 	container result;
 	while(true){
-		result = fBoundDfS(root,bound);
+		result = fBoundDfS(root,bound,weight);
 		if (result.goal) return result.cost;
 		bound = result.bound;
 
@@ -118,21 +102,21 @@ int ida(container root){
 
 int main(int argc, char **argv) {
 
-	if( argc < 3 ) {
-        printf("Usage: %s <instances> <outfile>\n", argv[0]);
+	if( argc < 4 ) {
+        printf("Usage: %s <instances> <outfile> <weight>\n", argv[0]);
         exit(-1);
     }
 	    
-
 
 	
     char stateChar[256];
 	ifstream myfile (argv[1]);
 	std::string path = argv[1];
 	ofstream outfile (argv[2]);
+	float weight = atof(argv[3]);
 	string line;
 	container root;
-	outfile << "grupo, algorithm, domain, instance, cost,h0, generated, time, gen_per_sec\n";
+	outfile << "grupo, algorithm, heuristic,weight,domain, instance, cost,h0, generated, time, gen_per_sec\n";
 
 	if (myfile.is_open()){
 
@@ -142,11 +126,12 @@ int main(int argc, char **argv) {
 			stateChar[sizeof(stateChar) - 1] = 0;
 			read_state(stateChar,&root.state);
 			
+			
 
 			begin = clock();
-			int h = heuristic(root.state);
+			int h = weight*heuristic(root.state);
 			root.cost = 0;
-			int cost = ida(root);
+			int cost = wida(root,weight);
 
 			end = clock();
 
@@ -160,7 +145,8 @@ int main(int argc, char **argv) {
 			printf("Tiempo: %f\n", elapsed_secs);
 			printf("Nodos/seg: %f\n", nodes_generated/elapsed_secs);
 			printf("==================\n");
-			outfile << "x, dfid, ";
+			outfile << "x, wida, Gap ,";
+			outfile << weight << ", ";
 			outfile << path.substr(path.find_last_of("\\/")+1,path.find_last_of(".")) << ", ";
 			outfile << "'" << stateChar << "', ";
 			outfile << cost << ", ";

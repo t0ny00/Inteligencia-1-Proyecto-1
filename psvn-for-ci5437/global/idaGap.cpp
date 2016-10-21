@@ -1,3 +1,4 @@
+/* IDA algorithm with duplicate elimination and Gap heuristic for the pancake problem*/
 #include <vector>
 #include "priority_queue.hpp"
 #include <time.h>
@@ -13,10 +14,6 @@ unsigned long long nodes_generated = 0;
 
 clock_t begin,end;
 double elapsed_timer;
-bool timeout = false;
-double seconds,total;
-
-time_t t1,t2;
 
 
 struct container
@@ -30,21 +27,18 @@ struct container
 
 
 
+/*Gap heuristic where if a pancake is 2 or more sizes different than the one next to it, is counted as
+ towards the final value*/
+
 int heuristic(state_t state){
-	int h,tmp;
+	int h;
 
 	h = 0;
 	for (int i = 0 ; i < 28 - 1 ; i++){
-		tmp = abs(state.vars[i] - state.vars[i+1]);
-		// printf("hoooooo\n");
-		// printf("%d\n",state.vars[1] );
-		if (tmp  > 1 ) {h ++;
-			//printf("%d + %d \n", state_array[i],state_array[i+1]);
-		}
+		if (abs(state.vars[i] - state.vars[i+1])  > 1 ) h ++;
 	}
-	tmp = abs(state.vars[27] - 28);
-	if (tmp > 1) h++;
-		//exit(1);	
+	
+	if (abs(state.vars[27] - 28) > 1) h++; // Check if the bottom pancake is the biggest one
 	return h;
 }
 
@@ -60,8 +54,6 @@ container fBoundDfS(container father, int bound){
 	int f = father.cost + heuristic(father.state);
 	
 	
-	//print_state(stdout,&father.state);
-	//printf("    %d    %d\n",bound,father.cost);
 	
 	if (is_goal(&father.state) == 1) {
 		father.goal = true;
@@ -117,19 +109,6 @@ int main(int argc, char **argv) {
 	    
 
 	
-	// clock_t begin,end;
-	// container a;
-	// read_state("14 13 15 7 11 12 9 5 6 B 2 1 4 8 10 3", &a.state);
-	// a.cost = 0;
-	// begin = clock();
-	// int g = ida(a);
-	// end = clock();
-
-	// double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-	// printf("costo:  %d\n", g);
-	// printf("%llu\n", nodes_generated);
-	// printf("Tiempo: %f\n", elapsed_secs);
-	// printf("Tiempo2: %f\n", total);
 	
     char stateChar[256];
 	ifstream myfile (argv[1]);
@@ -137,7 +116,7 @@ int main(int argc, char **argv) {
 	ofstream outfile (argv[2]);
 	string line;
 	container root;
-	outfile << "grupo, algorithm, domain, instance, cost,h0, generated, time, gen_per_sec\n";
+	outfile << "grupo, algorithm, heuristic,domain, instance, cost,h0, generated, time, gen_per_sec\n";
 
 	if (myfile.is_open()){
 
@@ -148,20 +127,14 @@ int main(int argc, char **argv) {
 			read_state(stateChar,&root.state);
 			
 			
-			// print_state(stdout,&root.state);
-			// printf("\n%d\n", nodes_generated);
 
 			begin = clock();
+			
+
 			int h = heuristic(root.state);
 			root.cost = 0;
 			int cost = ida(root);
-			//t1 = time(NULL);
 
-			
-			// if(seconds > t_max || timeout){
-			// 	timeout = true;
-			// 	break;
-			// }
 			
 			end = clock();
 
@@ -169,37 +142,21 @@ int main(int argc, char **argv) {
 			
 			printf("Estado: ");
 			print_state(stdout,&root.state);
-			if (!timeout){
-				printf("\nNodos generados: %llu\n", nodes_generated);
-				printf("Costo: %d\n", cost);
-				printf("h0: %d\n", h);
-				printf("Tiempo: %f\n", elapsed_secs);
-				printf("Nodos/seg: %f\n", nodes_generated/elapsed_secs);
-				printf("==================\n");
-				outfile << "x, dfid, ";
-				outfile << path.substr(path.find_last_of("\\/")+1,path.find_last_of(".")) << ", ";
-				outfile << "'" << stateChar << "', ";
-				outfile << cost << ", ";
-				outfile << h << ", ";
-				outfile << nodes_generated << ", ";
-				outfile << elapsed_secs << ", ";
-				outfile << nodes_generated/elapsed_secs << endl;
-			}
-			else {
-				printf("\nNodos generados: na\n");
-				printf("Costo: na\n");
-				printf("h0: %d\n", h);
-				printf("Tiempo: na\n");
-				printf("Nodos/seg: na\n");
-				printf("==================\n");
-				outfile << "x, dfid, ";
-				outfile << path.substr(path.find_last_of("\\/")+1,path.find_last_of(".")) << ", ";
-				outfile << "'" << stateChar << "', ";
-				outfile << "na,";
-				outfile << h << ", "; 
-				outfile << "na, na, na "<< endl;
-				timeout = false; 
-			}
+			printf("\nNodos generados: %llu\n", nodes_generated);
+			printf("Costo: %d\n", cost);
+			printf("h0: %d\n", h);
+			printf("Tiempo: %f\n", elapsed_secs);
+			printf("Nodos/seg: %f\n", nodes_generated/elapsed_secs);
+			printf("==================\n");
+			outfile << "x, IDA, ";
+			outfile << "Gap, ";
+			outfile << path.substr(path.find_last_of("\\/")+1,path.find_last_of(".")) << ", ";
+			outfile << "'" << stateChar << "', ";
+			outfile << cost << ", ";
+			outfile << h << ", ";
+			outfile << nodes_generated << ", ";
+			outfile << elapsed_secs << ", ";
+			outfile << nodes_generated/elapsed_secs << endl;
 			nodes_generated = 0;
 		}
 

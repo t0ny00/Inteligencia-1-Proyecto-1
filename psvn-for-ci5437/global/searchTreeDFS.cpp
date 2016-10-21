@@ -2,6 +2,7 @@
 #include "priority_queue.hpp"
 #include <time.h>
 
+/*Bounded DFS search algorithm*/
 
 void boundedDfsVisit(state_t n, int d, int bound, int hist,unsigned long long results[]){
 
@@ -10,9 +11,7 @@ void boundedDfsVisit(state_t n, int d, int bound, int hist,unsigned long long re
 	state_t child,m;
 
 
-	if (d > bound){
-		return ;
-	};
+	if (d > bound) return ;
 
 	init_bwd_iter(&iter, &n);
 	results[d]++;
@@ -40,7 +39,7 @@ int main(int argc, char **argv) {
     }
 
     bound = atoi(argv[1]);
-	unsigned long long results[bound+1]={0};
+	unsigned long long results[bound+1]={0}; // The number of nodes created for every level are stored inside the array.
 
 	hist = init_history;
 	first_goal_state(&root, &d);

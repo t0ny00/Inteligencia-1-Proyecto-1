@@ -4,23 +4,20 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#define t_max  600
+#define t_max  600 //600 seconds -> 10 min runtime
 using namespace std;
 
 
 unsigned long long nodes_generated = 0;
-
-clock_t beginTimer,endTimer;
-double elapsed_timer;
 bool timeout = false;
-double seconds;
 
+//Global variables to time 10 minutes from within the code
 time_t t1,t2;
+double seconds;
 
 struct container
 {
     state_t state;
-    bool goal;
     int cost;
 };
 
@@ -30,32 +27,24 @@ container boundedDfsVisit(container n, unsigned d, unsigned bound, int hist){
 	int ruleid,hist_child;
 	ruleid_iterator_t iter;
 	container child,m;
-
-	// endTimer = clock();
-	// elapsed_timer = double(endTimer - beginTimer) / CLOCKS_PER_SEC;
-	// printf("%f\n", elapsed_timer);
+	
 
 	t2 = time(NULL);
 	seconds = difftime(t2,t1);
-	// printf("%f\n",seconds );
-	
-	if (seconds > t_max || timeout) {
+	if (seconds > t_max || timeout) { //Check if 10 minutes have passed since the start of the search
 		timeout = true;
 		return m;
 	}
 
 	if (d > bound){
-		m.goal = false;
 		return m;
 	};
-	if (is_goal(&n.state) == 1){ 
-		n.goal = true;
+	if (is_goal(&n.state)){ 
 		n.cost = d;
 		return n;
 	}
 
 	init_fwd_iter(&iter, &n.state);
-        
     while( (ruleid = next_ruleid(&iter) ) >= 0 ) {
         if (!fwd_rule_valid_for_history(hist,ruleid)) continue;
         hist_child = next_fwd_history(hist,ruleid);
@@ -63,9 +52,8 @@ container boundedDfsVisit(container n, unsigned d, unsigned bound, int hist){
         nodes_generated++;
         m = boundedDfsVisit(child,d+1,bound,hist_child);
 
-        if (m.goal != false) return m;   
+        if (is_goal(&m.state)) return m;   
     }
-    m.goal = false;
     return m;
 
 }
@@ -86,7 +74,7 @@ int main(int argc, char **argv) {
         exit(1);
     }
 	
-    
+    //Get file's name
 	ifstream myfile (argv[1]);
 	std::string path = argv[1];
 	ofstream outfile (argv[2]);
@@ -103,31 +91,22 @@ int main(int argc, char **argv) {
 			read_state(stateChar,&root.state);
 			nodes_generated++;
 			
-			// print_state(stdout,&root.state);
-			// printf("\n%d\n", nodes_generated);
 
-			begin = clock();
-			// beginTimer = clock();
-			t1 = time(NULL);
+			t1 = time(NULL); //Begin to count time
+			begin = clock();	// Start cpu timer	
 
+			//Main Loop
 			while(1){
 				n = boundedDfsVisit(root,0,bound,hist);
-				if (n.goal != false) break;
+				if (is_goal(&n.state)) break;
 				bound++;
-				// endTimer = clock();
-				//t2 = time(NULL);
-				//seconds = difftime(t2,t1);
-				//printf("%f\n",seconds );
-				// elapsed_timer = double(endTimer - beginTimer) / CLOCKS_PER_SEC;
-				if(seconds > t_max || timeout){
-					timeout = true;
-					break;
-				}
+				if(seconds > t_max || timeout) break;
 			}
-			end = clock();
+			end = clock(); //Take finish time of the process
 
 			double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 			
+			// Print Results
 			printf("Estado: ");
 			print_state(stdout,&root.state);
 			if (!timeout){

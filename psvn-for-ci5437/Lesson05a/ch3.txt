@@ -1,6 +1,0 @@
-map TILE 6 B
-map TILE 7 B
-map TILE 8 B
-map TILE 9 B
-map TILE 10 B
-map TILE 11 B
