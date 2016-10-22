@@ -13,3 +13,6 @@ Directorio Actividad_4, contenedor de los programas de la actividad 4 y sus resp
 Directorio Actividad_5, contenedor de los programas de la última actividad y sus resultados
 
 Cada directorio posee a su vez un Readme.txt explicando a mayor detalle el contenido de las mismas
+
+Los códigos escritos en el lenguaje C++ para cada actividad se encuentran en el directorio "global" contenido en el directorio
+padre del directorio actual (Proyecto)
