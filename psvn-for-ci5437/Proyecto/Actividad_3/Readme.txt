@@ -23,5 +23,5 @@ estos programas se corren de la siguiente manera: ./nombreprograma.dfid (archivo
 
 También contiene el archivo Makefile para compilar cada uno de estos programas cuando así sea necesario
 
-El directorio Resultados contiene un archivo CSV por cada problema en los cuales se encuentran las tablas con
+El directorio Tablas Resultados contiene un archivo CSV por cada problema en los cuales se encuentran las tablas con
 los resultados de los mismos
