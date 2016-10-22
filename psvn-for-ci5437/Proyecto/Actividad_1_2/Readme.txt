@@ -1,4 +1,4 @@
-Directorio contenedor de los archivos necesarios para obtener los resultados de las actividades 1 y 2
+Directorio contenedor de los archivos y programas necesarios para obtener los resultados de las actividades 1 y 2
 además de la tabla con todos los resultados obtenidos
 
 Esta actividad consistía en comparar los árboles de búsqueda generados para distintos problemas
